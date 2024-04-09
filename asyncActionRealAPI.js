@@ -2,7 +2,9 @@ const redux = require("redux");
 const createStore = redux.createStore;
 const applyMiddleware = redux.applyMiddleware;
 const thunkMiddleware = require("redux-thunk").default;
-const logger = require("redux-logger").createLogger();
+const createLogger = require("redux-logger").createLogger;
+
+const logger = createLogger();
 
 const initialState = {
   loading: false,
@@ -65,11 +67,6 @@ const reducer = (state = initialState, action) => {
 // store, uygulamanın durumunu tutar ve değişiklikleri dinler.
 
 const store = createStore(reducer, applyMiddleware(thunkMiddleware, logger));
-console.log("Initial state", store.getState());
-const unsubscribe = store.subscribe(() =>
-  console.log("Updated state", store.getState())
-);
-unsubscribe();
 
 const fetchUsers = () => {
   return async (dispatch) => {
@@ -89,4 +86,7 @@ const fetchUsers = () => {
   };
 };
 
+store.subscribe(() => {
+  console.log(store.getState());
+});
 store.dispatch(fetchUsers());
