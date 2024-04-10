@@ -15,6 +15,10 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 const UserContainer = () => {
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
   return <div>UserContainer</div>;
 };
 
