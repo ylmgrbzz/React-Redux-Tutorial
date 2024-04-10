@@ -14,12 +14,25 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-const UserContainer = () => {
+const UserContainer = ({ userData, fetchUsers }) => {
   useEffect(() => {
     fetchUsers();
   }, []);
 
-  return <div>UserContainer</div>;
+  return userData.loading ? (
+    <h2>Loading</h2>
+  ) : userData.error ? (
+    <h2>{userData.error}</h2>
+  ) : (
+    <div>
+      <h2>User List</h2>
+      <div>
+        {userData &&
+          userData.user &&
+          userData.user.map((user) => <p>{user.name}</p>)}
+      </div>
+    </div>
+  );
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserContainer);
